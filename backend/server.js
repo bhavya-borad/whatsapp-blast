@@ -14,14 +14,7 @@ const io = new Server(server, {
 });
 
 app.use(cors());
-const path = require('path');
 
-// Serve React frontend
-app.use(express.static(path.join(__dirname, '../frontend/build')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
-});
 
 app.use(express.json());
 
@@ -213,6 +206,15 @@ io.on('connection', (socket) => {
   socket.on('restart_wa', () => {
     initWhatsApp(socket.id);
   });
+});
+
+const path = require('path');
+
+// Serve React frontend
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3001;
