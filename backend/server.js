@@ -1,3 +1,4 @@
+const chromium = require('chrome-aws-lambda');  
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -29,20 +30,18 @@ function initWhatsApp(socketId) {
   }
 
   const client = new Client({
-    authStrategy: new LocalAuth({ clientId: socketId }),
-    puppeteer: {
-      headless: true,
-      args: [
-       '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-gpu',
-        '--no-first-run',
-        '--no-zygote',
-        '--single-process'
-      ]
-    }
-  });
+  authStrategy: new LocalAuth({ clientId: socketId }),
+  puppeteer: {
+    executablePath: await chromium.executablePath,
+    headless: true,
+    args: [
+      ...chromium.args,
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+    ]
+  }
+});
 
   sessions[socketId] = {
     client,
