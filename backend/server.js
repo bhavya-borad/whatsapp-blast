@@ -24,7 +24,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 // Store state per socket session
 const sessions = {};
 
-function initWhatsApp(socketId) {
+async function initWhatsApp(socketId) {
   if (sessions[socketId]?.client) {
     try { sessions[socketId].client.destroy(); } catch (_) {}
   }
@@ -32,7 +32,7 @@ function initWhatsApp(socketId) {
   const client = new Client({
   authStrategy: new LocalAuth({ clientId: socketId }),
   puppeteer: {
-    executablePath: await chromium.executablePath,
+    executablePath: await chromium.executablePath || chromium.executablePath,
     headless: true,
     args: [
       ...chromium.args,
