@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { io } from "socket.io-client";
 import * as XLSX from "xlsx";
 
-const BACKEND = process.env.REACT_APP_BACKEND_URL || "http://localhost:3001";
+const BACKEND = "";
 
 const DEFAULT_MESSAGE = `Hi {Name}! 👋
 
